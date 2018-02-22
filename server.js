@@ -7,6 +7,8 @@
 
 var fs = require('fs');
 var express = require('express');
+var urlRoute = require("./route")
+
 var app = express();
 
 if (!process.env.DISABLE_XORIGIN) {
@@ -32,11 +34,15 @@ app.route('/_api/package.json')
       res.type('txt').send(data.toString());
     });
   });
-  
+
 app.route('/')
     .get(function(req, res) {
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
+
+// URL Shortener API
+app.use(urlRoute)
+
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
